@@ -9,7 +9,7 @@ import numpy as np
 st.set_page_config(
     page_title="Dashboard SHAP - Mercado Libre",
     layout="wide",  
-    page_icon="mercado-libre.png"
+    page_icon="../imagenes/mercado-libre.png"
 )
 
 # ========================
@@ -17,12 +17,12 @@ st.set_page_config(
 # ========================
 @st.cache_resource
 def cargar_modelo():
-    return joblib.load("modelo_xgb_v2.pkl")
+    return joblib.load("../models/modelo_xgb_v2.pkl")
 
 @st.cache_data
 def cargar_datos():
-    X_test = pd.read_csv("X_test_v2.csv")
-    y_test = pd.read_csv("y_test_v2.csv")  # Opcional, si quieres mostrar la clase real
+    X_test = pd.read_csv("../data/X_test_v2.csv")
+    y_test = pd.read_csv("../data/y_test_v2.csv")  # Opcional, si quieres mostrar la clase real
     return X_test, y_test
 
 modelo = cargar_modelo()
@@ -31,12 +31,12 @@ X_test, y_test = cargar_datos()
 # ========================
 # Calcular SHAP
 # ========================
-st.sidebar.image("mercado-libre.png", width=200)
+st.sidebar.image("../imagenes/mercado-libre.png", width=200)
 st.sidebar.markdown("<h2 style='text-align: center; color: #fdd835;'>Panel de Configuración</h2>", unsafe_allow_html=True)
 
 st.sidebar.markdown("#### Selecciona un cliente:")
 #cliente_idx = st.sidebar.slider("", 0, len(X_test) - 1)
-cliente_idx = st.sidebar.slider("", 0, len(X_test) - 1, value=1226)
+cliente_idx = st.sidebar.slider("", 0, len(X_test) - 1, value=7205)
 st.sidebar.markdown(f"Cliente seleccionado: **{cliente_idx}**")
 
 
@@ -65,7 +65,7 @@ st.title("Modelo de clasificación de artículos nuevos y usados")
 
 st.markdown("""
 Este modelo utiliza un algoritmo *xgboost* para predecir si un artículo es **nuevo** o **usado** 
-basado en 17 características.
+basado en 14 características.
 
 La intención de este dashboard es ayudar a los usuarios a entender cómo funciona el modelo y cómo se llega a la predicción.
 
