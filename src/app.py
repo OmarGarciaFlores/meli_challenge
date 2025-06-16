@@ -34,10 +34,10 @@ X_test, y_test = cargar_datos()
 st.sidebar.image("src/mercado-libre.png", width=200)
 st.sidebar.markdown("<h2 style='text-align: center; color: #fdd835;'>Panel de Configuración</h2>", unsafe_allow_html=True)
 
-st.sidebar.markdown("#### Selecciona un cliente:")
+st.sidebar.markdown("#### Selecciona un artículo:")
 #cliente_idx = st.sidebar.slider("", 0, len(X_test) - 1)
 cliente_idx = st.sidebar.slider("", 0, len(X_test) - 1, value=7205)
-st.sidebar.markdown(f"Cliente seleccionado: **{cliente_idx}**")
+st.sidebar.markdown(f"Artículo seleccionado: **{cliente_idx}**")
 
 
 @st.cache_resource
@@ -73,13 +73,13 @@ Para ello, se muestra la probabilidad de que el artículo sea nuevo o usado y c�
 
 """)
 
-st.markdown(f"### Cliente seleccionado: {cliente_idx}")
+st.markdown(f"### Artículo seleccionado: {cliente_idx}")
 
 
 # ========================
 # Métricas horizontales alineadas
 # ========================
-st.markdown("### Predicción del modelo para el cliente seleccionado")
+st.markdown("### Predicción del modelo para el artículo seleccionado")
 
 col1, col2, col3 = st.columns(3)
 
