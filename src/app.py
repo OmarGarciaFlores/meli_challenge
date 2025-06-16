@@ -151,16 +151,22 @@ st.pyplot(fig)
 # ========================
 st.markdown("#### Conversión de SHAP a probabilidad")
 
-# Transformar valores SHAP a contribuciones en probabilidad
-log_odds = explainer.expected_value + shap_explanation.values.sum()
-final_prob = 1 / (1 + np.exp(-log_odds))
-gradient = final_prob * (1 - final_prob)
-shap_prob_values = shap_explanation.values * gradient
+# Obtener la suma acumulada de valores SHAP (desde E[f(x)] hacia f(x))
+log_odds_base = explainer.expected_value
+shap_values = shap_explanation.values
+shap_cumsum = np.cumsum(shap_values[::-1])[::-1]  # acumulado desde el último al primero
+log_odds_path = log_odds_base + shap_cumsum
+probs = log_odds_to_proba(log_odds_path)
 
-# Tabla ordenada
+# Para obtener el impacto marginal, restamos la probabilidad con y sin cada feature
+probs_shifted = np.roll(probs, -1)
+probs_shifted[-1] = log_odds_to_proba(log_odds_base + shap_values.sum())
+shap_prob_marginal = probs - probs_shifted
+
+# Crear tabla ordenada
 df_prob = pd.DataFrame({
     'Variable': shap_explanation.feature_names,
-    'Impacto en probabilidad (%)': shap_prob_values * 100
+    'Impacto en probabilidad (%)': shap_prob_marginal * 100
 }).sort_values(by='Impacto en probabilidad (%)', key=abs, ascending=False)
 
 df_prob['Impacto en probabilidad (%)'] = df_prob['Impacto en probabilidad (%)'].map(lambda x: f"{x:+.2f}%")
