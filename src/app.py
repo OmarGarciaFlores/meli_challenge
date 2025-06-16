@@ -9,7 +9,7 @@ import numpy as np
 st.set_page_config(
     page_title="Dashboard SHAP - Mercado Libre",
     layout="wide",  
-    page_icon="mercado-libre.png"
+    page_icon="src/mercado-libre.png"
 )
 
 # ========================
@@ -17,12 +17,12 @@ st.set_page_config(
 # ========================
 @st.cache_resource
 def cargar_modelo():
-    return joblib.load("modelo_xgb_v2.pkl")
+    return joblib.load("src/modelo_xgb_v2.pkl")
 
 @st.cache_data
 def cargar_datos():
-    X_test = pd.read_csv("X_test_v2.csv")
-    y_test = pd.read_csv("y_test_v2.csv")  # Opcional, si quieres mostrar la clase real
+    X_test = pd.read_csv("src/X_test_v2.csv")
+    y_test = pd.read_csv("src/y_test_v2.csv")  # Opcional, si quieres mostrar la clase real
     return X_test, y_test
 
 modelo = cargar_modelo()
@@ -31,7 +31,7 @@ X_test, y_test = cargar_datos()
 # ========================
 # Calcular SHAP
 # ========================
-st.sidebar.image("mercado-libre.png", width=200)
+st.sidebar.image("src/mercado-libre.png", width=200)
 st.sidebar.markdown("<h2 style='text-align: center; color: #fdd835;'>Panel de Configuración</h2>", unsafe_allow_html=True)
 
 st.sidebar.markdown("#### Selecciona un cliente:")
