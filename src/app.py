@@ -136,7 +136,7 @@ plt.title("¿Por qué el modelo clasificó este artículo como NUEVO o USADO?",
           fontstyle='italic', loc='center')
 
 # Gráfica SHAP tipo waterfall
-shap.plots.waterfall(shap_explanation, max_display=11, show=False)
+shap.plots.waterfall(shap_explanation, max_display=14, show=False)
 
 # Cambiar tamaño de fuente de las etiquetas del eje Y (variables a la izquierda)
 for label in ax.get_yticklabels():
