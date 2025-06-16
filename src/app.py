@@ -111,7 +111,7 @@ expected_prob = log_odds_to_proba(explainer.expected_value)
 # ========================
 st.write("#### ¿Cómo interpretar esta gráfica?")
 st.markdown(f"""
-- **f(x)** representa la salida del modelo en escala log-odds para este cliente.
+- **f(x)** representa la salida del modelo en escala log-odds para este artículo.
   En este caso, `f(x)` = {fx_logodds:.3f}, equivale a una probabilidad de **{fx_prob:.2%}** de que el artículo sea **nuevo**.
 - **Esperanza** (*Expected Value*): es el valor promedio de salida del modelo antes de ver cualquier variable. En este caso: {explainer.expected_value:.3f}, equivalente a una probabilidad de **{expected_prob:.2%}**.
 - 🔴 **Rojo**: la variable aumenta la probabilidad de que el artículo sea **nuevo**  
