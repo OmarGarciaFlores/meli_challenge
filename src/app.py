@@ -17,7 +17,7 @@ st.set_page_config(
 # ========================
 @st.cache_resource
 def cargar_modelo():
-    return joblib.load("../models/modelo_xgb_v2.pkl")
+    return joblib.load("modelo_xgb_v2.pkl")
 
 @st.cache_data
 def cargar_datos():
