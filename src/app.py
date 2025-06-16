@@ -118,7 +118,7 @@ st.markdown(f"""
 - 🔵 **Azul**: la variable reduce la probabilidad de que sea nuevo (más probable que sea **usado**)  
 - Esta gráfica muestra cómo se llega desde la esperanza hasta la predicción individual `f(x)`.
 
-Los valores SHAP en esta gráfica están en log-odds (no directamente en probabilidad), debajo de esta gráfica se muestra la tabla de variables con su impacto en la probabilidad de que el artículo sea nuevo.
+Los valores SHAP en esta gráfica están en log-odds (no directamente en probabilidad).
 """)
 
 
@@ -145,33 +145,6 @@ for label in ax.get_yticklabels():
 plt.tight_layout(pad=1)
 st.pyplot(fig)
 
-
-# ========================
-# Mostrar tabla con impacto en probabilidad
-# ========================
-st.markdown("#### Conversión de SHAP a probabilidad")
-
-# Obtener la suma acumulada de valores SHAP (desde E[f(x)] hacia f(x))
-log_odds_base = explainer.expected_value
-shap_values = shap_explanation.values
-shap_cumsum = np.cumsum(shap_values[::-1])[::-1]  # acumulado desde el último al primero
-log_odds_path = log_odds_base + shap_cumsum
-probs = log_odds_to_proba(log_odds_path)
-
-# Para obtener el impacto marginal, restamos la probabilidad con y sin cada feature
-probs_shifted = np.roll(probs, -1)
-probs_shifted[-1] = log_odds_to_proba(log_odds_base + shap_values.sum())
-shap_prob_marginal = probs - probs_shifted
-
-# Crear tabla ordenada
-df_prob = pd.DataFrame({
-    'Variable': shap_explanation.feature_names,
-    'Impacto en probabilidad (%)': shap_prob_marginal * 100
-}).sort_values(by='Impacto en probabilidad (%)', key=abs, ascending=False)
-
-df_prob['Impacto en probabilidad (%)'] = df_prob['Impacto en probabilidad (%)'].map(lambda x: f"{x:+.2f}%")
-
-st.dataframe(df_prob.reset_index(drop=True), use_container_width=True)
 
 
 
